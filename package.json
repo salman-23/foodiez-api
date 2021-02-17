@@ -1,0 +1,21 @@
+{
+  "name": "foodiez-api",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/salman-23/foodiez-api.git",
+  "author": "salman-23 <66154732+salman-23@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0",
+    "sequelize-slugify": "^1.4.0"
+  },
+  "scripts": {
+    "yarn start": "nodemon app.js"
+  }
+}
