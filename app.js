@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const categoryRoutes = require("./routes/category");
+const ingredientRoutes = require("./routes/ingredient");
 
 const app = express();
 const db = require("./db/models");
@@ -9,6 +10,7 @@ const path = require("path");
 app.use(express.json());
 app.use(cors());
 app.use("/categories", categoryRoutes);
+app.use("/ingredients", ingredientRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
 
 //Not Found Middleware
