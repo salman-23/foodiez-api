@@ -44,13 +44,28 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 //Reations
+
 db.Category.hasMany(db.Ingredient, {
   foreignKey: "categoryId",
   as: "ingredients",
 });
+
 db.Ingredient.belongsTo(db.Category, {
   foreignKey: "categoryId",
-  as: "categories",
+  as: "category",
 });
+
+// M-M
+db.Ingredient.belongsToMany(
+  db.Recipe,
+  { foreignKey: "recipeId", as: "recipe" },
+  { through: "ingredientRecipe" }
+);
+
+db.Recipe.belongsToMany(
+  db.Ingredient,
+  { foreignKey: "ingredientId", as: "ingredient" },
+  { through: "ingredientRecipe" }
+);
 
 module.exports = db;

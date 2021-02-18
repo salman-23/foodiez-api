@@ -1,25 +1,10 @@
-const { Category } = require("../db/models");
+const { Category, Ingredient } = require("../db/models");
 
 // fetch is not a controller just a function
 exports.fetchCategory = async (categoryId, next) => {
   try {
     const foundCategory = await Category.findByPk(categoryId);
     return foundCategory;
-  } catch (error) {
-    next(error);
-  }
-};
-
-//Category Update
-exports.categoryUpdate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    await req.category.update(req.body);
-    // res(204).end();
-    res.json(req.category);
-    //send back the updated category
   } catch (error) {
     next(error);
   }
@@ -33,11 +18,14 @@ exports.categoryList = async (req, res, next) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
-      // include: {
-      //   // model: Shop,
-      //   as: "shops",
-      //   attributes: ["id"],
-      // },
+      include: {
+        model: Ingredient,
+        as: "ingredients",
+        attributes: ["id"],
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
     });
     res.json(_categories);
   } catch (error) {
@@ -47,13 +35,24 @@ exports.categoryList = async (req, res, next) => {
 
 exports.categoryCreate = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
     const newCategory = await Category.create(req.body);
     res.status(201).json(newCategory);
-    //   attributes: {
-    //     exclude: ["createdAt", "updatedAt"],
-    //   },
+  } catch (error) {
+    next(error);
+  }
+};
 
-    // });
+exports.ingredientCreate = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    req.body.categoryId = req.category.id;
+    const newIngredient = await Ingredient.create(req.body);
+    res.status(201).json(newIngredient);
   } catch (error) {
     next(error);
   }

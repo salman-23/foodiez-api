@@ -1,10 +1,9 @@
 const express = require("express");
 const {
-  categoryUpdate,
   categoryList,
-  categoryDelete,
   fetchCategory,
   categoryCreate,
+  ingredientCreate,
 } = require("../controllers/categoryControllers");
 
 const router = express.Router();
@@ -23,14 +22,17 @@ router.param("categoryId", async (req, res, next, categoryId) => {
   }
 });
 
-//Category Update Route
-// router.put("/:categoryId", upload.single("image"), categoryUpdate);
-
 //Category List Route
 router.get("/", categoryList);
-router.post("/", categoryCreate);
 
-//Category Delete Route
-// router.delete("/:categoryId", categoryDelete);
+//Category Post Route
+router.post("/", upload.single("image"), categoryCreate);
+
+//Ingredient Post Route
+router.post(
+  "/:categoryId/ingredients",
+  upload.single("image"),
+  ingredientCreate
+);
 
 module.exports = router;
