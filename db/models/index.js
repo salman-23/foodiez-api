@@ -58,6 +58,7 @@ db.Ingredient.belongsTo(db.Category, {
 // M-M
 db.Ingredient.belongsToMany(db.Recipe, {
   foreignKey: "ingredientId",
+  otherKey: "recipeId",
   as: "recipes",
   through: "IngredientRecipe",
 });
@@ -65,6 +66,7 @@ db.Ingredient.belongsToMany(db.Recipe, {
 // ingredientId
 db.Recipe.belongsToMany(db.Ingredient, {
   foreignKey: "recipeId",
+  otherKey: "ingredientId",
   as: "ingredients",
   through: "IngredientRecipe",
 });

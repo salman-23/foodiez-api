@@ -18,7 +18,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       isUrl: true,
     },
+
+    // {
+
+    //   timestamps: false,
+
+    // }
+
     // in
+    // ingredient: {
+    //   type: DataTypes.STRING,
+    //   defaultValue: ["water"],
+    // },
   });
 
   SequelizeSlugify.slugifyModel(Recipe, {

@@ -44,11 +44,14 @@ exports.recipeList = async (req, res, next) => {
 
 exports.recipeCreate = async (req, res, next) => {
   try {
+    // req.body.recipeId = req.recipe.id;
+
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const newRecipe = await Recipe.create(req.body);
     newRecipe.addIngredients(req.body.ingredients);
+    // newRecipe.addIngredients(req.body.ingredients);
     res.status(201).json(newRecipe);
   } catch (error) {
     next(error);
