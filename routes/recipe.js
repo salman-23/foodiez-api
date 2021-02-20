@@ -6,6 +6,7 @@ const {
 } = require("../controllers/recipeControllers");
 
 const router = express.Router();
+const upload = require("../middleware/multer");
 
 router.param("recipeId", async (req, res, next, recipeId) => {
   const foundRecipe = await fetchRecipe(recipeId, next);
@@ -22,6 +23,8 @@ router.param("recipeId", async (req, res, next, recipeId) => {
 
 //Recipe List Route
 router.get("/", recipeList);
-// router.post("/", recipeList);
+
+//Recipe Post Route
+router.post("/", upload.single("image"), recipeCreate);
 
 module.exports = router;

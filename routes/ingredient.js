@@ -2,7 +2,6 @@ const express = require("express");
 const {
   ingredientList,
   fetchIngredient,
-  ingredientCreate,
 } = require("../controllers/ingredientControllers");
 
 const router = express.Router();

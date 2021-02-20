@@ -1,9 +1,19 @@
-const { Ingredient, Recipe } = require("../db/models");
+const { Ingredient, Recipe, IngredientRecipe } = require("../db/models");
 
 // fetch is not a controller just a function
 exports.fetchIngredient = async (ingredientId, next) => {
   try {
-    const foundIngredient = await Ingredient.findByPk(ingredientId);
+    const foundIngredient = await Ingredient.findByPk(ingredientId, {
+      include: {
+        model: Recipe,
+        as: "recipes",
+        attributes: ["id"],
+        through: {
+          attributes: ["recipeId", "ingredientId"],
+        },
+      },
+    });
+
     return foundIngredient;
   } catch (error) {
     next(error);
@@ -15,13 +25,16 @@ exports.fetchIngredient = async (ingredientId, next) => {
 exports.ingredientList = async (req, res, next) => {
   try {
     const _ingredients = await Ingredient.findAll({
-      attributes: {
-        exclude: ["createdAt", "updatedAt"],
-      },
       include: {
         model: Recipe,
         as: "recipes",
         attributes: ["id"],
+        through: {
+          attributes: ["recipeId", "ingredientId"],
+        },
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
       },
     });
     res.json(_ingredients);
